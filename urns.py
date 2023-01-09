@@ -51,6 +51,11 @@ def balls_throw_subset(n,d):
         urns[halfrandom_urn]+=1
     return max(urns)
 
+def balls_throw_groups(n,d):
+    urns=[]
+    for i in range(0,n):
+        urns.append(0)
+    
 
 
 nMin = 10
