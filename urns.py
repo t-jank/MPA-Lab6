@@ -82,9 +82,9 @@ for n in range(nMin,nMax,nStep):
     LB_y.append(math.log(n)/math.log(math.log(n)))
     EX_y.append(2.343*math.log(n)/math.log(math.log(n)))
 
+plt.plot(UB_x, UB_y, color='crimson',label='UB = 3*log(n)/loglog(n)',linewidth=2.5)
 plt.plot(EX_x,EX_y, color='blue',label='2.343*log(n)/loglog(n)',linewidth=3.5)
-plt.plot(LB_x, LB_y, color='orangered',label='LB=log(n)/loglog(n)',linewidth=2.5)
-plt.plot(UB_x, UB_y, color='crimson',label='UB=3*log(n)/loglog(n)',linewidth=2.5)
+plt.plot(LB_x, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
 #plt.xlim(left=0)
 #plt.xlim(right=nMax)
 plt.xlabel('n')
