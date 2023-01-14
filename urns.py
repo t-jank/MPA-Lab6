@@ -75,19 +75,16 @@ for n in range(nMin,nMax,nStep):
         plt.scatter(n,summ/nRepeats,color='k',label='simulation, 10 repeats for each n')
     else:
         plt.scatter(n,summ/nRepeats,color='k')
-    
     UB_x.append(n)
     LB_x.append(n)
     EX_x.append(n)
     UB_y.append(3*math.log(n)/math.log(math.log(n)))
     LB_y.append(math.log(n)/math.log(math.log(n)))
     EX_y.append(1.577*math.log(n)/math.log(math.log(n)))
-    
 
 plt.plot(UB_x, UB_y, color='crimson',label='UB = 3*log(n)/loglog(n)',linewidth=2.5)
 plt.plot(EX_x,EX_y, color='b',label='1.577*log(n)/loglog(n)',linewidth=3.5)
 plt.plot(LB_x, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
-
 #plt.xlim(left=0)
 #plt.xlim(right=nMax)
 plt.xlabel('n')
