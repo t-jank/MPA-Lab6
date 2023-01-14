@@ -7,6 +7,7 @@ Created on Sat Jan  7 22:56:33 2023
 import random
 import matplotlib.pyplot as plt
 import math
+import statistics
 
 n = 10 # number of urns and balls
 #k = n # number of balls
@@ -51,7 +52,7 @@ def balls_throw_subset(n,d):
         urns[halfrandom_urn]+=1
     return max(urns)
 
-def balls_throw_groups(n,d):
+def balls_throw_groups(n,d): # tu: nMin=12, nStep=12
     urns=[]
     for i in range(0,n):
         urns.append(0)
@@ -59,28 +60,35 @@ def balls_throw_groups(n,d):
 
 
 nMin = 10
-nMax = 1000
-nStep = 13
+nMax = 10000
+nStep = 1300
 nRepeats = 10
 d = 2
+UB_x,UB_y,LB_x,LB_y,EX_x,EX_y=[],[],[],[],[],[]
 
 for n in range(nMin,nMax,nStep):
     summ=0
     for r in range(0,nRepeats):
-        #summ+=balls_throw_uniform(n)
+        summ+=balls_throw_uniform(n)
         summ+=balls_throw_subset(n,d)
     if n==nMin:
         plt.scatter(n,summ/nRepeats,color='k',label='simulation, 10 repeats for each n')
-   #     plt.scatter(n, 1.9*math.log(n)/math.log(math.log(n))-1.2, color='blue',label='1.9*log(n)/loglog(n)-1.2')
     else:
         plt.scatter(n,summ/nRepeats,color='k')
- #       plt.scatter(n, 1.9*math.log(n)/math.log(math.log(n))-1.2, color='blue')
+    UB_x.append(n)
+    LB_x.append(n)
+    EX_x.append(n)
+    UB_y.append(3*math.log(n)/math.log(math.log(n)))
+    LB_y.append(math.log(n)/math.log(math.log(n)))
+    EX_y.append(2.343*math.log(n)/math.log(math.log(n)))
+
+plt.plot(EX_x,EX_y, color='blue',label='2.343*log(n)/loglog(n)',linewidth=3.5)
+plt.plot(LB_x, LB_y, color='orangered',label='LB=log(n)/loglog(n)',linewidth=2.5)
+plt.plot(UB_x, UB_y, color='crimson',label='UB=3*log(n)/loglog(n)',linewidth=2.5)
 #plt.xlim(left=0)
 #plt.xlim(right=nMax)
 plt.xlabel('n')
 plt.ylabel('Number of balls in biggest urn')
-plt.title('Maximum load')
+plt.title('Maximum load, uniform')#, subsets d='+str(d))
 plt.legend()
 plt.show()
-
-
