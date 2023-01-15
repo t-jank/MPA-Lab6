@@ -61,34 +61,37 @@ def balls_throw_groups(n,d): # tu: nMin=12, nStep=12
 
 nMin = 10
 nMax = 10000
-nStep = 130
+nStep = 13
 nRepeats = 10
-d = 2
-UB_x,UB_y,LB_x,LB_y,EX_x,EX_y=[],[],[],[],[],[]
+d = 4
+ox,UB_y,LB_y,EX_y,EX2_y=[],[],[],[],[]
 
 for n in range(nMin,nMax,nStep):
     summ=0
     for r in range(0,nRepeats):
-        summ+=balls_throw_uniform(n)
-      #  summ+=balls_throw_subset(n,d)
+      #  summ+=balls_throw_uniform(n)
+        summ+=balls_throw_subset(n,d)
     if n==nMin:
-        plt.scatter(n,summ/nRepeats,color='k',label='simulation, 10 repeats for each n')
+        plt.scatter(n,summ/nRepeats,color='k',label='simulation, '+str(nRepeats)+' repeats for each n')
     else:
         plt.scatter(n,summ/nRepeats,color='k')
-    UB_x.append(n)
-    LB_x.append(n)
-    EX_x.append(n)
+    ox.append(n)
+    EX_y.append(1.0165*math.log(math.log(n)))
+    EX2_y.append(math.log(math.log(n))/math.log(d)+0.6)
+    '''    
     UB_y.append(3*math.log(n)/math.log(math.log(n)))
     LB_y.append(math.log(n)/math.log(math.log(n)))
     EX_y.append(1.577*math.log(n)/math.log(math.log(n)))
-
-plt.plot(UB_x, UB_y, color='crimson',label='UB = 3*log(n)/loglog(n)',linewidth=2.5)
-plt.plot(EX_x,EX_y, color='b',label='1.577*log(n)/loglog(n)',linewidth=3.5)
-plt.plot(LB_x, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
+plt.plot(ox, UB_y, color='crimson',label='UB = 3*log(n)/loglog(n)',linewidth=2.5)
+plt.plot(ox,EX_y, color='b',label='1.577*log(n)/loglog(n)',linewidth=3.5)
+plt.plot(ox, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
+'''
+plt.plot(ox,EX_y, color='b',label='1.0165*loglog(n)',linewidth=2.5)
+plt.plot(ox,EX2_y, color='limegreen',label='loglog(n)/log(d)+0.6',linewidth=1.5)
 #plt.xlim(left=0)
 #plt.xlim(right=nMax)
 plt.xlabel('n')
 plt.ylabel('Number of balls in biggest urn')
-plt.title('Maximum load, uniform throws')#, subsets d='+str(d))
+plt.title('Maximum load, '+str(d)+' subsets')
 plt.legend()
 plt.show()
