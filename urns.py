@@ -56,28 +56,44 @@ def balls_throw_groups(n,d): # tu: nMin=12, nStep=12
     urns=[]
     for i in range(0,n):
         urns.append(0)
-    
+    group_capacity=int(n/d)
+    groups=[0]
+    for i in range(0,d):
+        groups.append(groups[i]+group_capacity)
+    for balls in range(0,n):
+        subset=[]
+        for i in range(0,d):
+            random_urn = random.randint(groups[i],groups[i+1]-1)
+            subset.append(random_urn)
+        number_of_balls_in_drawn_subset=[]
+        for i in range(0,d):
+            number_of_balls_in_drawn_subset.append(urns[subset[i]])
+        minimum=min(number_of_balls_in_drawn_subset)
+        urns[subset[number_of_balls_in_drawn_subset.index(minimum)]]+=1
+    return max(urns)
 
 
-nMin = 10
+
+nMin = 12
 nMax = 10000
-nStep = 13
+nStep = 12
 nRepeats = 10
-d = 4
+d = 2
 ox,UB_y,LB_y,EX_y,EX2_y=[],[],[],[],[]
 
 for n in range(nMin,nMax,nStep):
     summ=0
     for r in range(0,nRepeats):
       #  summ+=balls_throw_uniform(n)
-        summ+=balls_throw_subset(n,d)
+     #   summ+=balls_throw_subset(n,d)
+        summ+=balls_throw_groups(n,d)
     if n==nMin:
         plt.scatter(n,summ/nRepeats,color='k',label='simulation, '+str(nRepeats)+' repeats for each n')
     else:
         plt.scatter(n,summ/nRepeats,color='k')
     ox.append(n)
-    EX_y.append(1.0165*math.log(math.log(n)))
-    EX2_y.append(math.log(math.log(n))/math.log(d)+0.6)
+   # EX_y.append(1.0165*math.log(math.log(n)))
+    EX2_y.append(2*math.log(math.log(n))/d+10/(n**2)+0.85)
     '''    
     UB_y.append(3*math.log(n)/math.log(math.log(n)))
     LB_y.append(math.log(n)/math.log(math.log(n)))
@@ -86,12 +102,12 @@ plt.plot(ox, UB_y, color='crimson',label='UB = 3*log(n)/loglog(n)',linewidth=2.5
 plt.plot(ox,EX_y, color='b',label='1.577*log(n)/loglog(n)',linewidth=3.5)
 plt.plot(ox, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
 '''
-plt.plot(ox,EX_y, color='b',label='1.0165*loglog(n)',linewidth=2.5)
-plt.plot(ox,EX2_y, color='limegreen',label='loglog(n)/log(d)+0.6',linewidth=1.5)
-#plt.xlim(left=0)
-#plt.xlim(right=nMax)
+#plt.plot(ox,EX_y, color='b',label='1.0165*loglog(n)',linewidth=2.5)
+plt.plot(ox,EX2_y, color='hotpink',label='2loglog(n)/d+10/n^2+0.85',linewidth=2.5)
+
 plt.xlabel('n')
 plt.ylabel('Number of balls in biggest urn')
-plt.title('Maximum load, '+str(d)+' subsets')
+plt.title('Maximum load, '+str(d)+' groups')
 plt.legend()
 plt.show()
+
