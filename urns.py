@@ -78,7 +78,7 @@ nMin = 12
 nMax = 10000
 nStep = 12
 nRepeats = 10
-d = 2
+d = 4
 ox,UB_y,LB_y,EX_y,EX2_y=[],[],[],[],[]
 
 for n in range(nMin,nMax,nStep):
@@ -93,7 +93,7 @@ for n in range(nMin,nMax,nStep):
         plt.scatter(n,summ/nRepeats,color='k')
     ox.append(n)
    # EX_y.append(1.0165*math.log(math.log(n)))
-    EX2_y.append(2*math.log(math.log(n))/d+10/(n**2)+0.85)
+    EX2_y.append(2*math.log(math.log(n))/d+1/(n**2)+0.9)
     '''    
     UB_y.append(3*math.log(n)/math.log(math.log(n)))
     LB_y.append(math.log(n)/math.log(math.log(n)))
@@ -103,7 +103,7 @@ plt.plot(ox,EX_y, color='b',label='1.577*log(n)/loglog(n)',linewidth=3.5)
 plt.plot(ox, LB_y, color='orangered',label='LB = log(n)/loglog(n)',linewidth=2.5)
 '''
 #plt.plot(ox,EX_y, color='b',label='1.0165*loglog(n)',linewidth=2.5)
-plt.plot(ox,EX2_y, color='hotpink',label='2loglog(n)/d+10/n^2+0.85',linewidth=2.5)
+plt.plot(ox,EX2_y, color='hotpink',label='2loglog(n)/d+1/n^2+0.9',linewidth=2.5)
 
 plt.xlabel('n')
 plt.ylabel('Number of balls in biggest urn')
