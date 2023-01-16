@@ -76,7 +76,7 @@ def balls_throw_groups(n,d): # tu: nMin=12, nStep=12
 
 nMin = 12
 nMax = 10000
-nStep = 12
+nStep = 4800
 nRepeats = 10
 d = 4
 ox,UB_y,LB_y,EX_y,EX2_y=[],[],[],[],[]
@@ -111,3 +111,38 @@ plt.title('Maximum load, '+str(d)+' groups')
 plt.legend()
 plt.show()
 
+## Histogram ##
+n=1000
+d=4
+nrep=10000
+alfa=0.9
+hist_data=[]
+for r in range(0,nrep):
+    hist_data.append(balls_throw_uniform(n))
+plt.hist(hist_data,bins=10,color='k')
+avg=statistics.mean(hist_data)
+plt.axvline(x=avg,color='orangered',label='Średnia')
+
+expected=1.577*math.log(n)/math.log(math.log(n))
+plt.axvline(x=expected,color='yellow',label='Wartość oczekiwana')
+
+# Czebyszew
+deltaczeb=math.sqrt(statistics.variance(hist_data)/(1-alfa))
+plt.axvline(x=avg+deltaczeb,color='b',label='Czebyszew, α='+str(alfa))
+plt.axvline(x=avg-deltaczeb,color='b')
+
+# Rzeczywistość
+pomrzecz=[]
+for i in range(0,len(hist_data)):
+    pomrzecz.append(abs(hist_data[i]-avg))
+pomrzecz.sort()
+deltarzecz=pomrzecz[math.ceil((alfa)*len(pomrzecz))]
+plt.axvline(x=avg+deltarzecz,color='limegreen',label='Rzeczywistość, α='+str(alfa))
+plt.axvline(x=avg-deltarzecz,color='limegreen')
+
+plt.title('Maximum load, uniform throw,\nn='+str(n)+ ',\nliczba próbek='+str(nrep))
+
+plt.xlabel('Number of balls in biggest urn')
+plt.ylabel('Liczba próbek')
+plt.legend()
+plt.show()
